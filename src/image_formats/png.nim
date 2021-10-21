@@ -4,7 +4,7 @@
 #   Width:              4 bytes max 2^31, not 0
 #   Height:             4 bytes max 2^31, not 0
 
-import std/[streams, strutils, endians]
+import std/[streams, endians]
 
 proc get_size*( path: string ): (int,int) =
   var stream = new_file_stream( path, fm_read )
