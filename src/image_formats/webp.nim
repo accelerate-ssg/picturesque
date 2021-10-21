@@ -3,7 +3,7 @@ import std/[streams,bitops,strutils,endians]
 
 proc get_size_from_vp8_header_block( stream: var FileStream ): (int,int)
 proc get_size_from_vp8l_header_block( stream: var FileStream ): (int,int)
-proc get_size_from_vp8_header_block( stream: var FileStream ): (int,int)
+proc get_size_from_vp8x_header_block( stream: var FileStream ): (int,int)
 
 proc get_size*( path:string ): (int,int) =
   var stream = new_file_stream( path, fm_read )
@@ -17,7 +17,7 @@ proc get_size*( path:string ): (int,int) =
     of "VP8L":
       get_size_from_vp8l_header_block( stream )
     of "VP8X":
-      get_size_from_vp8_header_block( stream )
+      get_size_from_vp8x_header_block( stream )
     else:
       echo "Unknown Webp encoding: " & encoding
       return (-1,1)
@@ -66,7 +66,7 @@ proc read_extended_size_value_at_position( stream: var FileStream, pos: int ): i
   int(raw.bitsliced(0 .. 23))
 
 
-proc get_size_from_vp8_header_block( stream: var FileStream ): (int,int) =
+proc get_size_from_vp8x_header_block( stream: var FileStream ): (int,int) =
     let w = stream.read_extended_size_value_at_position( 24 )
     let h = stream.read_extended_size_value_at_position( 27 )
 
@@ -74,6 +74,7 @@ proc get_size_from_vp8_header_block( stream: var FileStream ): (int,int) =
 
 
 
-assert get_size("examples/animated.webp") == (400,400)
-assert get_size("examples/jonas_lossy.webp") == (512,512)
-assert get_size("examples/jonas_lossless.webp") == (512,512)
+assert get_size("src/image_formats/examples/animated.webp") == (400,400)
+assert get_size("src/image_formats/examples/jonas_lossy.webp") == (512,512)
+assert get_size("src/image_formats/examples/jonas_lossless.webp") == (512,512)
+assert get_size("src/image_formats/examples/jonas.png") == (-1,1)
