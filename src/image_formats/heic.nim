@@ -4,7 +4,7 @@ import std/[streams,endians]
 
 type
   Errors* = enum
-    Invalid = (1, "File is not a valid JPEG")
+    Invalid = (1, "File is not a valid HEIC")
     SizeNotFound = (2, "No valid 'ispe' box found in the file")
 
 
