@@ -1,6 +1,6 @@
 # Picturesque
 
-While this toll was built to be part of the Accelerate toolchain, it is a
+While this tool was built to be part of the Accelerate toolchain, it is a
 standalone command line tool that anyone can use.
 
 ## Why?
@@ -100,3 +100,7 @@ With an accompanying list of all the variants that needs to be created.
 
 This allows you to process files and add new formats without having to touch the
 source files manually.
+
+## Development
+
+Run using `nimble run picturesque run [paths to files]`, for example `nimble run picturesque run index.html css/main.css`
