@@ -21,11 +21,17 @@ manifest of all image variants that need to be generated.
 
 Picturesque operates in a single pass per file:
 
-1. **Detect** - Scan HTML and CSS files for image references
-2. **Expand** - For each image, generate entries for every requested target
+1. **Discover** - Starting from the given files, automatically discover linked
+   CSS files (via `<link rel="stylesheet">`) and add them to the processing
+   queue. Inline `<style>` blocks are processed in place.
+2. **Detect** - Scan HTML and CSS files for image references
+3. **Expand** - For each image, generate entries for every requested target
    format, with content-hashed filenames for cache invalidation
-3. **Rewrite** - Update the source file in place with the expanded references
-4. **Manifest** - Output a JSON list of all image variants that need generating
+4. **Rewrite** - Update the source file in place with the expanded references
+5. **Manifest** - Output a JSON list of all image variants that need generating
+
+This means you can point Picturesque at just your HTML entry points and it will
+find and process all linked stylesheets automatically.
 
 The process is **idempotent**. Generated elements are marked with
 `data-picturesque` (HTML) or `/* picturesque */` (CSS) so that re-running

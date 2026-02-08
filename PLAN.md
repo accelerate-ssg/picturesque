@@ -110,6 +110,29 @@ The manifest is collected during processing and serialized to JSON at the end.
 This is the core new functionality. Each file is read, processed, and written
 back in a single pass.
 
+### 3.0 File discovery
+
+The parser should automatically discover linked files as it processes each
+input file, building a work queue. When processing an HTML file, it should
+detect and enqueue:
+
+- `<link rel="stylesheet" href="...">` — external CSS files
+- `<link rel="icon" href="...">` and other `<link>` with image types
+- `<script src="...">` — JS files (future, if JS parsing is added)
+
+Inline `<style>` blocks should be processed in place as part of the HTML file
+(no separate file to enqueue).
+
+**Work queue rules:**
+- Maintain a set of already-processed file paths (absolute, normalized)
+- Before enqueuing a discovered file, check it isn't already processed or
+  already in the queue
+- Resolve relative paths against the directory of the file that references them
+- Files given as CLI arguments are the initial queue entries
+
+This means the user can run `picturesque run index.html` and all linked CSS
+files are discovered and processed automatically.
+
 ### 3.1 Idempotency mechanism
 
 Before expanding, strip all previously generated content:
@@ -243,14 +266,15 @@ generated variants should too.
 
 1. Phase 1 (cleanup) - removes dead code, simplifies the codebase
 2. Phase 2 (data model) - establishes the foundation
-3. Phase 3.1 (idempotency) - needed before any rewriting
-4. Phase 3.2 (HTML `<img>`) - simplest rewrite case
-5. Phase 3.3 (HTML `<picture>`) - builds on 3.2
-6. Phase 3.4 (CSS `url()`) - independent of HTML work
-7. Phase 3.5 (CSS `image-set()`) - builds on 3.4
-8. Phase 4 (JSON output) - can be done any time after Phase 2
-9. Phase 5 (edge cases) - polish
-10. Phase 3.6 (CSS `cross-fade()`) - lowest priority
+3. Phase 3.0 (file discovery) - work queue with automatic CSS/JS discovery
+4. Phase 3.1 (idempotency) - needed before any rewriting
+5. Phase 3.2 (HTML `<img>`) - simplest rewrite case
+6. Phase 3.3 (HTML `<picture>`) - builds on 3.2
+7. Phase 3.4 (CSS `url()`) - independent of HTML work
+8. Phase 3.5 (CSS `image-set()`) - builds on 3.4
+9. Phase 4 (JSON output) - can be done any time after Phase 2
+10. Phase 5 (edge cases) - polish
+11. Phase 3.6 (CSS `cross-fade()`) - lowest priority
 
 ## Dependencies after cleanup
 
