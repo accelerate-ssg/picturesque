@@ -1,0 +1,7 @@
+.hero {
+  background-image: image-set( /* picturesque */
+    "bg.abc123.avif" type("image/avif"),
+    "bg.abc123.webp" type("image/webp"),
+    "bg.abc123.jpg" type("image/jpeg")
+  );
+}

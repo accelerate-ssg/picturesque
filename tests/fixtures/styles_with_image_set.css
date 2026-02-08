@@ -1,0 +1,12 @@
+.hero {
+  background-image: image-set(
+    "bg.jpg" type("image/jpeg")
+  );
+}
+
+.retina {
+  background-image: image-set(
+    "photo.jpg" 1x,
+    "photo_2x.jpg" 2x
+  );
+}

@@ -1,0 +1,11 @@
+.hero {
+  background-image: url("bg.jpg");
+}
+
+.banner {
+  background-image: url('banner.png');
+}
+
+.icon {
+  background-image: url(icon.gif);
+}
