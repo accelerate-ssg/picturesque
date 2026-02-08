@@ -1,0 +1,9 @@
+@font-face {
+  font-family: "MyFont";
+  src: url("myfont.woff2") format("woff2"),
+       url("myfont.woff") format("woff");
+}
+
+.hero {
+  background-image: url("bg.jpg");
+}
